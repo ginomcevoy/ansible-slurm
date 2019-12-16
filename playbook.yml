@@ -1,0 +1,11 @@
+---
+- name: "Ansible playbook example"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - name: "Print the hostname"
+      local_action: 
+        module: debug
+        msg: "{{item}}"
+      loop: "{{groups[group_input]}}"

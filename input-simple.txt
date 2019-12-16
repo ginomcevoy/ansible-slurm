@@ -1,0 +1,5 @@
+NODELIST   NODES   PARTITION STATE
+pm-nod009      1 production* mixed
+pm-nod010      1 production* mixed
+pm-nod052      1 production* idle*
+pm-nod146      1     python3 idle

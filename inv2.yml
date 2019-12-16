@@ -1,0 +1,34 @@
+---
+
+all:
+  hosts:
+    pm-nod009
+    pm-nod010
+    pm-nod024
+    pm-nod025
+
+  children:
+    production:
+      children:
+        idle:
+          hosts:
+            pm-nod009
+            pm-nod011
+        mixed:
+          hosts:
+            pm-nod010
+            pm-nod012
+        down:
+          hosts:
+            pm-nod147
+    skylake:
+      children:
+        idle:
+          hosts:
+            pm-nod024
+        mixed:
+          hosts:
+        down:
+          hosts:
+            pm-nod025
+            pm-nod026
