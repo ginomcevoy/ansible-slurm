@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Create an inventory based on Slurm info
+
+# Giacomo Mc Evoy <giacomo.valenzano@atos.net>
+# Atos 2019
+
+# Calculate directory local to script
+BIN_DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+cd $BIN_DIR/..
+
+PYTHONPATH=. python -m ansible_slurm.inventory $@

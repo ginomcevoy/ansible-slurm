@@ -1,16 +1,6 @@
 import yaml
 
-
 from ansible_slurm import ALL, CHILDREN, HOSTS, PARTITION, STATE, ONLINE_STATES, ONLINE_STATE
-
-
-simple_hosts = [
-    'pm-nod009',
-    'pm-nod010',
-    'pm-nod052',
-    'pm-nod146',
-    'pm-nod147',
-]
 
 
 def create_ansible_inventory_dict(host_details):
