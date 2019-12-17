@@ -1,6 +1,7 @@
-# import pprint
-import unittest
 import yaml
+
+
+from ansible_slurm import ALL, CHILDREN, HOSTS, PARTITION, STATE, ONLINE_STATES, ONLINE_STATE
 
 
 simple_hosts = [
@@ -10,19 +11,6 @@ simple_hosts = [
     'pm-nod146',
     'pm-nod147',
 ]
-
-
-ALL = 'all'
-CHILDREN = 'children'
-HOSTS = 'hosts'
-PARTITION = 'partition'
-STATE = 'state'
-
-ONLINE_STATE = 'online'
-ONLINE_STATES = ['mixed', 'alloc', 'idle']
-
-BUSY_STATE = 'busy'
-BUSY_STATES = ['mixed', 'alloc']
 
 
 def create_ansible_inventory_dict(host_details):
@@ -124,61 +112,3 @@ def to_yaml(output_dict, filename):
         yaml.dump(output_dict, file, default_flow_style=False)
 
     return filename
-
-
-class TestCreateYAML(unittest.TestCase):
-
-    def setUp(self):
-        self.expected_filename = 'expected-simple.yml'
-        self.expected_dict = None
-        with open(self.expected_filename, 'r') as ef:
-            self.expected_dict = yaml.load(ef)
-        self.maxDiff = None
-
-    def test_hosts(self):
-        created = create_ansible_inventory_dict(self.host_details_testing())
-        expected = self.expected_dict
-        self.assertEqual(created[ALL][HOSTS], expected[ALL][HOSTS])
-
-    def test_production_present(self):
-        created = create_ansible_inventory_dict(self.host_details_testing())
-
-        self.assertTrue(CHILDREN in created[ALL].keys())
-        self.assertTrue('production' in created[ALL][CHILDREN].keys())
-
-    def test_production_contents(self):
-        created = create_ansible_inventory_dict(self.host_details_testing())
-        expected = self.expected_dict
-
-        self.assertEqual(created[ALL][CHILDREN]['production'],
-                         expected[ALL][CHILDREN]['production'])
-
-    def test_complete_output(self):
-        created = create_ansible_inventory_dict(self.host_details_testing())
-        expected = self.expected_dict
-
-        self.assertEqual(created, expected)
-
-    def test_yaml_output(self):
-        output_filename = 'output-simple.yml'
-        output_dict = create_ansible_inventory_dict(self.host_details_testing())
-        to_yaml(output_dict, output_filename)
-
-        with open(output_filename, 'r') as of:
-            actual_output = yaml.load(of)
-
-        self.assertEqual(actual_output, self.expected_dict)
-
-    def host_details_testing(self):
-        example_host_details = {
-            'pm-nod009': {'partition': 'production', 'state': 'mixed'},
-            'pm-nod010': {'partition': 'production', 'state': 'mixed'},
-            'pm-nod052': {'partition': 'production', 'state': 'idle'},
-            'pm-nod146': {'partition': 'python3', 'state': 'mixed'},
-            'pm-nod147': {'partition': 'production', 'state': 'down'},
-        }
-        return example_host_details
-
-
-if __name__ == '__main__':
-    unittest.main()

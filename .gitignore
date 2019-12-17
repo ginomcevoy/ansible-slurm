@@ -1,0 +1,12 @@
+# setup.py bdist_rpm
+build/
+dist/
+*.egg-info/
+
+# pytest
+.pytest_cache/
+
+# Python
+*.pyc
+*.pycache/
+
